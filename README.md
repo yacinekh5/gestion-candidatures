@@ -2,6 +2,11 @@
 
 Test technique Vue.js (Junior/Mid-Level) : interface de gestion de candidatures pour une équipe de recrutement. L'énoncé original est dans [`docs/enonce/`](docs/enonce/test-technique-vuejs.md).
 
+**Démo en ligne** : [gestion-candidatures.vercel.app](https://gestion-candidatures.vercel.app)
+API hébergée : [gestion-candidatures-api.onrender.com](https://gestion-candidatures-api.onrender.com/candidatures)
+
+> L'API est sur le plan gratuit de Render : elle s'endort après 15 min d'inactivité et met 30-50 secondes à se réveiller au premier appel. Patience au premier chargement.
+
 ## Sommaire
 
 - [Stack technique](#stack-technique)

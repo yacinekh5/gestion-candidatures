@@ -242,3 +242,18 @@ En plus des limites déjà notées dans le README, quelques idées qui sortent d
 - **Tri et filtre par années d'expérience** : actuellement `experience` est un texte libre ("3 ans", "1.5 ans"...) dans `db.json`, il faudrait le normaliser en nombre pour permettre un vrai filtre par plage (ex: "2 à 5 ans")
 - **Tableau de bord analytics** : temps moyen passé par statut, taux de conversion entre chaque étape du pipeline — ça répondrait directement à la problématique de suivi du parcours candidat identifiée en Partie 1
 - **Export CSV/Excel** de la liste filtrée, pour partager une sélection avec l'équipe ou faire un reporting hors de l'application
+
+---
+
+## Déploiement
+
+Démo en ligne : [gestion-candidatures.vercel.app](https://gestion-candidatures.vercel.app), API sur [gestion-candidatures-api.onrender.com](https://gestion-candidatures-api.onrender.com/candidatures).
+
+- **Frontend** : Vercel, connecté directement au dépôt GitHub, build automatique (`npm run build`) à chaque push sur `main`
+- **API** : Render (plan gratuit), qui lance `npm run start:api` (JSON Server en écoutant sur le port fourni par Render au lieu du port 3000 fixe utilisé en local)
+
+**Problème rencontré :** première tentative avec [my-json-server.typicode.com](https://my-json-server.typicode.com), un service gratuit qui transforme le `db.json` d'un repo GitHub en API sans rien déployer. Ça a échoué avec une erreur `maxContentLength size of 10000 exceeded` : ce service récupère le fichier via l'API GitHub, qui l'encode en base64 (+33% de taille), et notre `db.json` dépassait la limite de 10 Ko une fois encodé. Impossible de le faire rentrer dans la limite sans supprimer des candidatures, ce qui aurait changé les données fournies par le sujet.
+
+**Solution retenue :** déployer un vrai JSON Server sur Render, qui n'a aucune limite de ce type et garde toutes les fonctionnalités (PATCH, filtres, etc.) avec les données complètes.
+
+**Limite du plan gratuit Render :** le service s'endort après 15 minutes sans requête et met 30 à 50 secondes à redémarrer au premier appel suivant. Sans impact sur le fonctionnement, juste un temps de chargement plus long au premier essai.
